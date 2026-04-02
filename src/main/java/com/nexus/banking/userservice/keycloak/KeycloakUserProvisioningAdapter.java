@@ -14,4 +14,9 @@ public class KeycloakUserProvisioningAdapter implements KeycloakUserProvisioning
         return UUID.randomUUID()
                    .toString();
     }
+
+    @Override
+    public void deleteUser(String keycloakUserId) {
+        // stub (real implementation later)
+    }
 }

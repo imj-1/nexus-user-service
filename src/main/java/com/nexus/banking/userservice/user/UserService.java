@@ -11,9 +11,7 @@ public class UserService {
     private final UserRepository userRepository;
     private final KeycloakUserProvisioningPort keycloakPort;
 
-    public User registerUser(RegisterUserRequest request) {
-
-        String keycloakId = keycloakPort.createUser(request);
+    public User registerUser(RegisterUserRequest request, String keycloakId) {
 
         User user = User.builder()
                         .email(request.email())

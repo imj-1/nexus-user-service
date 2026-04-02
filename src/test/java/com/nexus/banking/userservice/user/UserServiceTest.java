@@ -20,46 +20,23 @@ class UserServiceTest {
         userService = new UserService(userRepository, keycloakPort);
     }
 
+
     @Test
-    void shouldRegisterUser() {
+    void shouldRegisterUser_inDatabase() {
         // given
         RegisterUserRequest request = new RegisterUserRequest("test@nexus.com", "Test", "User");
 
-        User savedUser = User.builder()
-                             .id("123")
-                             .email(request.email())
-                             .firstName(request.firstName())
-                             .lastName(request.lastName())
-                             .locked(false)
-                             .build();
-
-        Mockito.when(userRepository.save(Mockito.any(User.class)))
-               .thenReturn(savedUser);
-
-        // when
-        User result = userService.registerUser(request);
-
-        // then
-        assertThat(result.getEmail()).isEqualTo("test@nexus.com");
-        assertThat(result.isLocked()).isFalse();
-    }
-    
-    @Test
-    void shouldRegisterUser_andProvisionInKeycloak() {
-        // given
-        RegisterUserRequest request = new RegisterUserRequest("test@nexus.com", "Test", "User");
-
-        Mockito.when(keycloakPort.createUser(request))
-               .thenReturn("kc-123");
+        String keycloakId = "kc-123";
 
         Mockito.when(userRepository.save(Mockito.any(User.class)))
                .thenAnswer(invocation -> invocation.getArgument(0));
 
         // when
-        User result = userService.registerUser(request);
+        User result = userService.registerUser(request, keycloakId);
 
         // then
-        assertThat(result.getKeycloakId()).isEqualTo("kc-123");
         assertThat(result.getEmail()).isEqualTo("test@nexus.com");
+        assertThat(result.getKeycloakId()).isEqualTo("kc-123");
+        assertThat(result.isLocked()).isFalse();
     }
 }
