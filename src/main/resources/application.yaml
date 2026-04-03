@@ -12,3 +12,14 @@ spring:
   test:
     database:
       replace: none
+
+  kafka:
+    bootstrap-servers: localhost:9092
+
+app:
+  kafka:
+    topic: user.events
+
+outbox:
+  poller:
+    delay: 3000
