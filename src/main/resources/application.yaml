@@ -16,6 +16,9 @@ spring:
   kafka:
     bootstrap-servers: localhost:9092
 
+server:
+  port: 9090
+
 app:
   kafka:
     topic: user.events
