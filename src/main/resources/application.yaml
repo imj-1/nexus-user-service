@@ -4,6 +4,9 @@ spring:
     username: postgres
     password: postgres
 
+  config:
+    import: optional:file:.env[.properties]
+
   jpa:
     hibernate:
       ddl-auto: update
@@ -22,6 +25,13 @@ server:
 app:
   kafka:
     topic: user.events
+
+keycloak:
+  admin:
+    base-url: ${KEYCLOAK_BASE_URL:http://localhost:8180}
+    realm: ${KEYCLOAK_REALM:nexus}
+    client-id: ${KEYCLOAK_ADMIN_CLIENT_ID:nexus-user-service}
+    client-secret: ${KEYCLOAK_ADMIN_CLIENT_SECRET}
 
 outbox:
   poller:
