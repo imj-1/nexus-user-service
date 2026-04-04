@@ -58,7 +58,11 @@ public class KeycloakUserProvisioningAdapter implements KeycloakUserProvisioning
         // Keycloak returns the new user's ID in the Location header
         String location = response.getHeaders()
                                   .getFirst("Location");
-        return location.substring(location.lastIndexOf("/") + 1);
+        String keycloakId = location.substring(location.lastIndexOf("/") + 1);
+
+        sendVerificationEmail(keycloakId, adminToken); // ← add this
+
+        return keycloakId;
     }
 
     @Override
@@ -86,5 +90,13 @@ public class KeycloakUserProvisioningAdapter implements KeycloakUserProvisioning
                                  .body(Map.class);
 
         return (String) response.get("access_token");
+    }
+
+    private void sendVerificationEmail(String keycloakUserId, String adminToken) {
+        restClient.put()
+                  .uri(baseUrl + "/admin/realms/" + realm + "/users/" + keycloakUserId + "/send-verify-email")
+                  .header("Authorization", "Bearer " + adminToken)
+                  .retrieve()
+                  .toBodilessEntity();
     }
 }
