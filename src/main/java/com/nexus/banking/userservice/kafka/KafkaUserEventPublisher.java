@@ -17,10 +17,6 @@ public class KafkaUserEventPublisher implements UserEventPublisherPort {
 
     @Override
     public void publish(OutboxEvent event) {
-
-        kafkaTemplate.executeInTransaction(operations -> {
-            operations.send(topic, event.getAggregateId(), event.getPayload());
-            return true;
-        });
+        kafkaTemplate.send(topic, event.getAggregateId(), event.getPayload());
     }
 }
