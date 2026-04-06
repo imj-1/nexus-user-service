@@ -10,13 +10,12 @@ import static org.assertj.core.api.Assertions.assertThat;
 class UserServiceTest {
 
     private UserRepository userRepository;
-    private KeycloakUserProvisioningPort keycloakPort;
     private UserService userService;
 
     @BeforeEach
     void setUp() {
         userRepository = Mockito.mock(UserRepository.class);
-        keycloakPort = Mockito.mock(KeycloakUserProvisioningPort.class);
+        KeycloakUserProvisioningPort keycloakPort = Mockito.mock(KeycloakUserProvisioningPort.class);
         userService = new UserService(userRepository, keycloakPort);
     }
 
@@ -24,7 +23,7 @@ class UserServiceTest {
     @Test
     void shouldRegisterUser_inDatabase() {
         // given
-        RegisterUserRequest request = new RegisterUserRequest("test@nexus.com", "Test", "User");
+        RegisterUserRequest request = new RegisterUserRequest("test@nexus.com", "Test", "User", "password123");
 
         String keycloakId = "kc-123";
 

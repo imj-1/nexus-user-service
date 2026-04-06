@@ -26,7 +26,7 @@ class UserRegistrationOrchestratorTest {
     @Test
     void shouldRollbackKeycloakUser_ifDatabaseSaveFails() {
         // given
-        RegisterUserRequest request = new RegisterUserRequest("fail@nexus.com", "Fail", "Case");
+        RegisterUserRequest request = new RegisterUserRequest("fail@nexus.com", "Fail", "Case", "password123");
 
         when(keycloakPort.createUser(request)).thenReturn("kc-123");
         when(userService.registerUser(any(), eq("kc-123"))).thenThrow(new RuntimeException("DB failure"));
@@ -44,7 +44,7 @@ class UserRegistrationOrchestratorTest {
     @Test
     void shouldPublishUserRegisteredEvent_afterSuccessfulRegistration() {
         // given
-        RegisterUserRequest request = new RegisterUserRequest("test@nexus.com", "Test", "User");
+        RegisterUserRequest request = new RegisterUserRequest("test@nexus.com", "Test", "User", "password123");
 
         User savedUser = User.builder()
                              .id("123")

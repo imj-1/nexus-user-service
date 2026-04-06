@@ -30,7 +30,7 @@ class UserControllerTest {
     @Test
     void shouldRegisterUser() throws Exception {
 
-        RegisterUserRequest request = new RegisterUserRequest("test@nexus.com", "Test", "User");
+        RegisterUserRequest request = new RegisterUserRequest("test@nexus.com", "Test", "User", "password123");
 
         User user = User.builder()
                         .id("123")
