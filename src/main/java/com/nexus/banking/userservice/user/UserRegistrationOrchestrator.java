@@ -26,7 +26,7 @@ public class UserRegistrationOrchestrator {
         try {
             User user = userService.registerUser(request, keycloakId);
 
-            String payload = toPayload(user.getId());
+            String payload = toPayload(keycloakId);
 
             OutboxEvent event = OutboxEvent.builder()
                                            .aggregateType("USER")
