@@ -1,6 +1,7 @@
 package com.nexus.banking.userservice.api;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.nexus.banking.userservice.keycloak.KeycloakAuthPort;
 import com.nexus.banking.userservice.user.RegisterUserRequest;
 import com.nexus.banking.userservice.user.User;
 import com.nexus.banking.userservice.user.UserRegistrationOrchestrator;
@@ -26,6 +27,9 @@ class UserControllerTest {
 
     @Autowired
     private ObjectMapper objectMapper;
+
+    @MockitoBean
+    private KeycloakAuthPort keycloakAuthPort;
 
     @Test
     void shouldRegisterUser() throws Exception {

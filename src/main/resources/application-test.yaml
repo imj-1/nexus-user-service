@@ -1,0 +1,35 @@
+spring:
+  datasource:
+    url: jdbc:h2:mem:testdb;MODE=PostgreSQL
+    username: sa
+    password:
+    driver-class-name: org.h2.Driver
+
+  jpa:
+    hibernate:
+      ddl-auto: create-drop
+    show-sql: false
+    database-platform: org.hibernate.dialect.H2Dialect
+
+  test:
+    database:
+      replace: any
+
+  kafka:
+    bootstrap-servers: localhost:9092
+
+eureka:
+  client:
+    enabled: false
+
+keycloak:
+  admin:
+    base-url: http://localhost:8180
+    realm: nexus
+    client-id: nexus-user-service
+    client-secret: test-secret
+
+outbox:
+  poller:
+    delay: 3000
+

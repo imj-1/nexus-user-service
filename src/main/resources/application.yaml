@@ -1,8 +1,12 @@
+server:
+  port: 9090
+
 spring:
   datasource:
-    url: jdbc:postgresql://localhost:5432/nexus_user_db
-    username: postgres
-    password: postgres
+    url: jdbc:postgresql://${DB_HOST:localhost}:${DB_PORT:5432}/${DB_NAME:nexus_user_db}
+    username: ${DB_USERNAME:postgres}
+    password: ${DB_PASSWORD:postgres}
+    driver-class-name: org.postgresql.Driver
 
   config:
     import: optional:file:.env[.properties]
@@ -17,14 +21,20 @@ spring:
       replace: none
 
   kafka:
-    bootstrap-servers: localhost:9092
-
-server:
-  port: 9090
+    bootstrap-servers: ${KAFKA_BOOTSTRAP_SERVERS:localhost:9092}
 
 app:
   kafka:
     topic: user.events
+
+eureka:
+  client:
+    service-url:
+      defaultZone: ${EUREKA_DEFAULT_ZONE:http://localhost:8761/eureka}
+    fetch-registry: true
+    register-with-eureka: true
+  instance:
+    prefer-ip-address: true
 
 keycloak:
   admin:
@@ -32,6 +42,28 @@ keycloak:
     realm: ${KEYCLOAK_REALM:nexus}
     client-id: ${KEYCLOAK_ADMIN_CLIENT_ID:nexus-user-service}
     client-secret: ${KEYCLOAK_ADMIN_CLIENT_SECRET}
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: health, info, metrics, prometheus
+  endpoint:
+    health:
+      show-details: always
+      probes:
+        enabled: true
+    prometheus:
+      access: unrestricted
+  prometheus:
+    metrics:
+      export:
+        enabled: true
+  health:
+    liveness-state:
+      enabled: true
+    readiness-state:
+      enabled: true
 
 outbox:
   poller:
